@@ -6,6 +6,7 @@ import (
 	"github.com/robfig/cron/v3"
 	"github.com/tealeg/xlsx"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -13,6 +14,14 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+
+	http.HandleFunc("/hello", func(w http.ResponseWriter, _ *http.Request) {
+		fmt.Fprintf(w, "World")
+	})
+
+	http.ListenAndServe(":"+port, nil)
+
 	parseFile()
 	c := cron.New()
 
