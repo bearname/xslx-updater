@@ -70,7 +70,7 @@ func uploadToTimeWeb(host string, user string, password string) {
 		return
 	}
 
-	err = c.Stor("../MyXLSXFile.xlsx", f)
+	err = c.Stor("MyXLSXFile.xlsx", f)
 	if err != nil {
 		log.Println(err)
 		return
@@ -83,7 +83,7 @@ func uploadToTimeWeb(host string, user string, password string) {
 }
 
 func prepareFile() {
-	wb, err := xlsx.OpenFile("C:\\Users\\mikha\\go\\src\\xlsx-parser\\ExcelPriceAllDep.xlsx")
+	wb, err := xlsx.OpenFile("../xcelPriceAllDep.xlsx")
 	if err != nil {
 		log.Println(err)
 		return
@@ -109,7 +109,7 @@ func prepareFile() {
 	err = fillSheet("Шины", file, results)
 	err = fillSheet("Диски", file, resultsDisks)
 
-	err = file.Save("MyXLSXFile.xlsx")
+	err = file.Save("../MyXLSXFile.xlsx")
 	if err != nil {
 		log.Println(err)
 	}
