@@ -3,10 +3,13 @@ package main
 import (
 	"fmt"
 	"github.com/jlaffaye/ftp"
-	"github.com/robfig/cron/v3"
+	"github.com/robfig/cron"
+	"net/http"
+
+	//"github.com/robfig/cron/v3"
 	"github.com/tealeg/xlsx"
 	"log"
-	"net/http"
+	//"net/http"
 	"os"
 	"strconv"
 	"time"
@@ -48,7 +51,7 @@ func main() {
 func parseFile() {
 	fmt.Println(time.Now())
 	prepareFile()
-	uploadToTimeWeb("vh68.timeweb.ru", "cg77613", "1gqSlS0bWUqT")
+	//uploadToTimeWeb("vh68.timeweb.ru", "cg77613", "1gqSlS0bWUqT")
 }
 
 func uploadToTimeWeb(host string, user string, password string) {
@@ -83,7 +86,7 @@ func uploadToTimeWeb(host string, user string, password string) {
 }
 
 func prepareFile() {
-	wb, err := xlsx.OpenFile("../xcelPriceAllDep.xlsx")
+	wb, err := xlsx.OpenFile("../ExcelPriceAllDep.xlsx")
 	if err != nil {
 		log.Println(err)
 		return
@@ -158,18 +161,20 @@ func parseDisksSheet(wb *xlsx.File) ([]domain.Result, bool) {
 
 	for i := 0; i < sh.MaxRow; i++ {
 		sku := sh.Cell(i, 23)
-		brand := sh.Cell(i, 1)
-		stock := sh.Cell(i, 14)
-		stock2 := sh.Cell(i, 13)
-		price := sh.Cell(i, 18)
-		atoi, _ := price.Int()
-		results = append(results, domain.Result{
-			Sku:    sku.Value,
-			Brand:  brand.Value,
-			Stock:  stock.Value,
-			Stock2: stock2.Value,
-			Price:  atoi,
-		})
+		if sku.String() != "Артикул" {
+			brand := sh.Cell(i, 1)
+			stock := sh.Cell(i, 14)
+			stock2 := sh.Cell(i, 13)
+			price := sh.Cell(i, 18)
+			atoi, _ := price.Int()
+			results = append(results, domain.Result{
+				Sku:    sku.Value,
+				Brand:  brand.Value,
+				Stock:  stock.Value,
+				Stock2: stock2.Value,
+				Price:  atoi,
+			})
+		}
 	}
 	return results, true
 }
