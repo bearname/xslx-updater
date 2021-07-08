@@ -64,13 +64,13 @@ func uploadToTimeWeb(host string, user string, password string) {
 		return
 	}
 
-	f, err := os.Open("MyXLSXFile.xlsx")
+	f, err := os.Open("../MyXLSXFile.xlsx")
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	err = c.Stor("MyXLSXFile.xlsx", f)
+	err = c.Stor("../MyXLSXFile.xlsx", f)
 	if err != nil {
 		log.Println(err)
 		return
